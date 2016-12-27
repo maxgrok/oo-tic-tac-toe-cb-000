@@ -73,14 +73,12 @@ class TicTacToe
 		puts "Please enter 1-9:"
 		user_input = gets.chomp
 		index = input_to_index(user_input)
-		if valid_move?(index) == true 
-			if current_player == "X"
+		if valid_move?(index) == true && current_player == "X"
 				move(index, value = "X")
 				puts display_board
-			elsif current_player == "O"
-				move(index, value = "X")
+		elsif valid_move?(index) == true && current_player == "O"
+				move(index, value = "O")
 				puts display_board
-			end
 		elsif valid_move?(index) == false
 			puts "Please enter 1-9:"
 			input = gets.chomp
@@ -99,9 +97,9 @@ class TicTacToe
 
 	#full
 	def full?
-		WIN_COMBINATIONS.detect do |combo|
-			position_taken?(combo[0]) && position_taken?(combo[1]) && position_taken?(combo[2]) && @board[combo[0]] != @board[combo[1]] && @board[combo[1]] != @board[combo[2]] 
-		end
+		@board.all? do |index|
+			 index == "X" || index == "O"
+			end
 	end
 
 	#draw
@@ -117,11 +115,9 @@ class TicTacToe
 
 	#over
 	def over?
-			if draw? == true
+			if won? || draw? == true
 				return true
-			elsif won? 
-				return true
-			elsif full? != true
+			else
 				return false
 			end
 	end
@@ -141,11 +137,11 @@ class TicTacToe
 	    end
 
 	    if draw?
-	    	return "Cat's Game!"
+	    	puts "Cat's Game!"
 	    elsif winner == "X" 
-	    	return "Congratulations X!"
+	    	puts "Congratulations X!"
 	    elsif winner == "O"
-	    	return "Congratulations O!"
+	    	puts "Congratulations O!"
 	    end
 	end
 
